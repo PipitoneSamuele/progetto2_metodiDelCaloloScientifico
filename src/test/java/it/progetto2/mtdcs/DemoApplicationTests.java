@@ -1,4 +1,4 @@
-package it.dct2;
+package it.progetto2.mtdcs;
 
 class DemoApplicationTests {
 
