@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,14 +17,7 @@ public class Main {
         /*
           Finestra principale
          */
-        JFrame frame = new JFrame();
-        frame = new JFrame();
-        frame.setTitle("Progetto 2: DCT2");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
-        frame.setSize(1200, 800);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        JFrame frame = GUI_Handler.initMainFrame();
 
         /*
          * Pannello superiore
@@ -38,24 +30,29 @@ public class Main {
         JLayeredPane midPanelLeft = new JLayeredPane();
         midPanelLeft.setBounds(0,100,600,600);
 
-        JPanel mplTop = GUI_Handler.createPanel(Color.cyan, 0, 0, 600, 100);
-        JPanel mplCenter = GUI_Handler.createPanel(Color.MAGENTA, 0, 100, 600, 100);
-        JPanel mplBottom = GUI_Handler.createPanel(Color.pink, 0, 200, 600, 400);
+        JPanel mplTop1 = GUI_Handler.createPanel(Color.cyan, 0, 0, 600, 25);
+        JPanel mplTop2 = GUI_Handler.createPanel(Color.yellow, 0, 25, 600, 75);
+        JPanel mplCenter = GUI_Handler.createPanel(Color.pink, 0, 100, 600, 400);
+        JPanel mplBottom = GUI_Handler.createPanel(Color.MAGENTA, 0, 500, 600, 100);
 
-        JLabel mplLabel = new JLabel("Usa il bottone per selezionare l'immagine da caricare");
-        mplLabel.setBounds(0,0,350,50);
+        JLabel mplLabel = new JLabel("Usa il bottone per selezionare l'immagine da caricare:");
+        mplLabel.setBounds(0,0,350,10);
 
         JButton mplButton = new JButton("Scegli foto");
         mplButton.addActionListener(e -> uploadImage());
+        mplButton.setLayout(null);
+        mplButton.setBounds(10,20,100,100);
 
         BufferedImage buffImage = ImageIO.read(new File("C:\\Users\\samue\\OneDrive\\Desktop\\universita\\MAGISTRALE_1_anno\\Metodi_del_calcolo_scientifico\\progetto 2\\progetto2_metodiDelCaloloScientifico\\src\\main\\resources\\images\\20x20.bmp"));
-        JLabel image = new JLabel(new ImageIcon(buffImage));
+        Image image = buffImage.getScaledInstance(300, 300, Image.SCALE_SMOOTH);
+        JLabel Jimage = new JLabel(new ImageIcon(image));
 
-        mplTop.add(mplLabel);
-        mplCenter.add(mplButton);
-        mplBottom.add(image);
+        mplTop1.add(mplLabel);
+        mplTop2.add(mplButton);
+        mplCenter.add(Jimage);
 
-        midPanelLeft.add(mplTop);
+        midPanelLeft.add(mplTop1);
+        midPanelLeft.add(mplTop2);
         midPanelLeft.add(mplCenter);
         midPanelLeft.add(mplBottom);
 
