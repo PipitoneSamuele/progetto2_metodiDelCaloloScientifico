@@ -15,6 +15,7 @@ public class Main {
     static String imagePath = "";
     static JFrame frame;
     static JPanel mplCenter;
+    static boolean uploadedImage = false;
 
     public static void main(String[] args) throws IOException {
 
@@ -37,10 +38,16 @@ public class Main {
                 JLayeredPane midPanelLeft = new JLayeredPane();
                 midPanelLeft.setBounds(0,100,600,600);
 
-                JPanel mplTop1 = GUI_Handler.createPanel(Color.cyan, 0, 0, 600, 25);
-                JPanel mplTop2 = GUI_Handler.createPanel(Color.yellow, 0, 25, 600, 50);
-                mplCenter = GUI_Handler.createPanel(Color.pink, 0, 75, 600, 425);
-                JPanel mplBottom = GUI_Handler.createPanel(Color.MAGENTA, 0, 500, 600, 100);
+                JPanel mplTop1 = GUI_Handler.createPanel(Color.white, 0, 0, 600, 25);
+                JPanel mplTop2 = GUI_Handler.createPanel(Color.white, 0, 25, 600, 50);
+
+                mplCenter = GUI_Handler.createPanel(Color.white, 0, 75, 600, 425);
+
+                JPanel mplBottom1 = GUI_Handler.createPanel(Color.white, 0, 500, 300, 35);
+                JPanel mplBottom11 = GUI_Handler.createPanel(Color.white, 0, 525, 300, 35);
+                JPanel mplBottom2 = GUI_Handler.createPanel(Color.white, 300, 500, 300, 35);
+                JPanel mplBottom21 = GUI_Handler.createPanel(Color.white, 300, 525, 300, 35);
+                JPanel mplBottom = GUI_Handler.createPanel(Color.white, 0, 560, 600, 100);
 
                 JLabel mplLabel = new JLabel("Usa il bottone per selezionare l'immagine da caricare:");
                 mplLabel.setBounds(0,0,350,10);
@@ -56,12 +63,28 @@ public class Main {
                 mplButton.setLayout(null);
                 mplButton.setBounds(10,20,100,100);
 
+                JLabel intAmpiezzaLabel = new JLabel("Inserisci l'ampiezza delle finestre F:");
+                JLabel intTaglioFreqLabel = new JLabel("Inserisci il taglio delle frequenze:");
+                JTextField intAmpiezzaTextField = new JTextField(20);
+                JTextField intTaglioFreqTextField = new JTextField(20);
+                JButton submitButton = new JButton("Submit");
+
                 mplTop1.add(mplLabel);
                 mplTop2.add(mplButton);
+
+                mplBottom1.add(intAmpiezzaLabel);
+                mplBottom11.add(intAmpiezzaTextField);
+                mplBottom2.add(intTaglioFreqLabel);
+                mplBottom21.add(intTaglioFreqTextField);
+                mplBottom.add(submitButton);
 
                 midPanelLeft.add(mplTop1);
                 midPanelLeft.add(mplTop2);
                 midPanelLeft.add(mplCenter);
+                midPanelLeft.add(mplBottom1);
+                midPanelLeft.add(mplBottom11);
+                midPanelLeft.add(mplBottom2);
+                midPanelLeft.add(mplBottom21);
                 midPanelLeft.add(mplBottom);
 
                 /*
@@ -88,24 +111,27 @@ public class Main {
     }
 
     private static void uploadImage() throws IOException {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setCurrentDirectory(new File("./src/main/resources/images"));
+        if(!uploadedImage) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(new File("./src/main/resources/images"));
 
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "bmp");
-        fileChooser.addChoosableFileFilter(filter);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "bmp");
+            fileChooser.addChoosableFileFilter(filter);
 
-        int choice = fileChooser.showOpenDialog(null);
+            int choice = fileChooser.showOpenDialog(null);
 
-        if(choice == JFileChooser.APPROVE_OPTION) {
-            imagePath = fileChooser.getSelectedFile().getAbsolutePath();
-            BufferedImage buffImage = ImageIO.read(new File(imagePath));
-            Image image = buffImage.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-            JLabel Jimage = new JLabel(new ImageIcon(image));
-            Jimage.setVisible(true);
-            mplCenter.add(Jimage);
-            reload();
-        } else {
-            System.out.println("No image selected");
+            if (choice == JFileChooser.APPROVE_OPTION) {
+                imagePath = fileChooser.getSelectedFile().getAbsolutePath();
+                BufferedImage buffImage = ImageIO.read(new File(imagePath));
+                Image image = buffImage.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+                JLabel Jimage = new JLabel(new ImageIcon(image));
+                Jimage.setVisible(true);
+                uploadedImage = true;
+                mplCenter.add(Jimage);
+                reload();
+            } else {
+                System.out.println("No image selected");
+            }
         }
     }
 
