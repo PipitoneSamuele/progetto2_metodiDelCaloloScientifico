@@ -16,15 +16,19 @@ public class Main {
     static JFrame frame;
     static JPanel mplCenter;
     static boolean uploadedImage = false;
+    static int ampiezza;
+    static int taglio;
+    static JTextField intAmpiezzaTextField;
+    static JTextField intTaglioFreqTextField;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
                 /*
-          Finestra principale
-         */
+                * Finestra principale
+                */
                 frame = GUI_Handler.initMainFrame();
 
                 /*
@@ -65,9 +69,10 @@ public class Main {
 
                 JLabel intAmpiezzaLabel = new JLabel("Inserisci l'ampiezza delle finestre F:");
                 JLabel intTaglioFreqLabel = new JLabel("Inserisci il taglio delle frequenze:");
-                JTextField intAmpiezzaTextField = new JTextField(20);
-                JTextField intTaglioFreqTextField = new JTextField(20);
+                intAmpiezzaTextField = new JTextField(20);
+                intTaglioFreqTextField = new JTextField(20);
                 JButton submitButton = new JButton("Submit");
+                submitButton.addActionListener(e -> submit());
 
                 mplTop1.add(mplLabel);
                 mplTop2.add(mplButton);
@@ -132,6 +137,16 @@ public class Main {
             } else {
                 System.out.println("No image selected");
             }
+        }
+    }
+
+    private static void submit() {
+        try {
+            ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
+            taglio = Integer.parseInt(intTaglioFreqTextField.getText());
+        } catch(Exception e) {
+            //TODO: gestisci caso in cui input non valido
+            System.out.println("Non valido");
         }
     }
 
