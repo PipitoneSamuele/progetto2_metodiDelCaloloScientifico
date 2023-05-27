@@ -1,7 +1,6 @@
 package it.progetto2.mtdcs;
 
-import edu.emory.mathcs.jtransforms.dct.FloatDCT_2D;
-import it.progetto2.mtdcs.GUI.MainGUI;
+import edu.emory.mathcs.jtransforms.dct.DoubleDCT_1D;
 import it.progetto2.mtdcs.utility.Constants;
 import it.progetto2.mtdcs.utility.MatrixUtility;
 
@@ -11,14 +10,12 @@ public class Main {
         //MainGUI gui = new MainGUI();
 
         //TODO: IMPO, la dimensione di fdtc2 deve corrispondere alla dimensione della matrice a cui applicarla
-        FloatDCT_2D fdct2 = new FloatDCT_2D(8, 8);
+        DoubleDCT_1D fdct = new DoubleDCT_1D(8);
 
-        float[][] matrix = MatrixUtility.initRandMatrix(10,10);
-        MatrixUtility.printMatrix(Constants.TEST);
-
-        fdct2.forward(Constants.TEST, false);
-        System.out.println();
-        MatrixUtility.printMatrix(matrix);
+        MatrixUtility.printVector(Constants.TEST_VECTOR);
+        fdct.forward(Constants.TEST_VECTOR, true);
+        System.out.println("");
+        MatrixUtility.printVector(Constants.TEST_VECTOR);
     }
 
 }

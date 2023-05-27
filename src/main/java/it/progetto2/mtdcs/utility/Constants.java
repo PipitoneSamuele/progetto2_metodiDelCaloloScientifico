@@ -2,7 +2,7 @@ package it.progetto2.mtdcs.utility;
 
 public class Constants {
 
-    public static float[][] TEST = {
+    public static double[][] TEST_MATRIX = {
             {231, 32, 233, 161, 24, 71, 140, 245},
             {247, 40, 248, 245, 124, 204, 36, 107},
             {234, 202, 245, 167, 9, 217, 239, 173},
@@ -12,5 +12,7 @@ public class Constants {
             {193, 70, 174, 167, 41, 30, 127, 245},
             {87, 149, 57, 192, 65, 129, 178, 228}
     };
+
+    public static double[] TEST_VECTOR = {231, 32,233,161,24,71,140,245};
 
 }
