@@ -29,5 +29,22 @@ public class MatrixUtility {
             System.out.print(d + " ");
         }
     }
-
+    
+    public static double dotProduct(double x[], double y[]) {
+    	if (x.length != y.length)
+    	    throw new RuntimeException("Arrays must be same size");
+    	double sum = 0;
+    	for (int i = 0; i < x.length; i++)
+    	    sum += x[i] * y[i];
+    	return sum;
+    }
+    
+    public static double[] vectorSum(double x[], double y[]) {
+    	if (x.length != y.length)
+    	    throw new RuntimeException("Arrays must be same size");
+    	double[] res = new double[x.length];
+    	for (int i = 0; i < x.length; i++)
+    		res[i] = x[i] + y[i];
+    	return res;
+    }
 }

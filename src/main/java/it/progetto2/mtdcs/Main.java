@@ -17,18 +17,35 @@ public class Main {
         fdct.forward(Constants.TEST_VECTOR, true);
         System.out.println("");
         MatrixUtility.printVector(Constants.TEST_VECTOR);
-
+        
+    	
         DoubleDCT_2D fdct2 = new DoubleDCT_2D(8,8); //La dimensione passata in input deve corrispondere con la dimensione del matrice
         MatrixUtility.printMatrix(Constants.TEST_MATRIX);
         fdct2.forward(Constants.TEST_MATRIX, true);
         System.out.println("");
         MatrixUtility.printMatrix(Constants.TEST_MATRIX);
         */
+        
 
-        double[] test = {231, 32, 233, 161, 24, 71, 140, 245};
+        /*double[] test = {231, 32, 233, 161, 24, 71, 140, 245};
         DCT1_Implementation dct1 = new DCT1_Implementation(test);
         test = dct1.calculateDCT();
         MatrixUtility.printVector(test);
+        */
+
+    	double[] test = {231, 32, 233, 161, 24, 71, 140, 245};
+    	System.out.println("Vettore iniziale:");
+        MatrixUtility.printVector(test);
+        System.out.println();
+        System.out.println();
+    	//double[] testino = {1, 1, 1, 1};
+        DCT1_Implementation dct1 = new DCT1_Implementation(test);
+        double[][] w = dct1.calculateDCT1();
+        double[] res = dct1.testDCT1(w);
+        System.out.println();
+        System.out.println("Vettore ri-calcolato con la w:");
+        MatrixUtility.printVector(res);
+        
     }
 
 }
