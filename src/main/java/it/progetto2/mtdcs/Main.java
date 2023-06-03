@@ -26,26 +26,20 @@ public class Main {
         System.out.println("");
         MatrixUtility.printMatrix(Constants.TEST_MATRIX);
         */
-        
-
-        /*double[] test = {231, 32, 233, 161, 24, 71, 140, 245};
-        DCT1_Implementation dct1 = new DCT1_Implementation(test);
-        test = dct1.calculateDCT();
-        MatrixUtility.printVector(test);
-        */
-    	
-    	
-    	System.out.println("Vettore iniziale:");
+      
+    	/*System.out.println("Vettore iniziale:");
         MatrixUtility.printVector(Constants.TEST_VECTOR);
         System.out.println();
+        DCT1_Implementation dct1 = new DCT1_Implementation(Constants.TEST_VECTOR);
+        double[] res = dct1.calculateDCT1();
+        MatrixUtility.printVector(res);*/
+    	
+    	System.out.println("Matrice iniziale:");
+        MatrixUtility.printMatrix(Constants.TEST_MATRIX);
         System.out.println();
-        DCT1_Implementation dct1 = new DCT1_Implementation(Constants.TEST_VECTOR.length);
-        double[][] w = dct1.calculateDCT1();
-        double[] res = dct1.testDCT1(Constants.TEST_VECTOR, w);
-        System.out.println();
-        System.out.println("Vettore ri-calcolato con la w:");
-        MatrixUtility.printVector(res);
-        
+        DCT2_Implementation dct2 = new DCT2_Implementation(Constants.TEST_MATRIX);
+        double[][] res = dct2.calculateDCT2();
+        MatrixUtility.printMatrix(res);
     }
 
 }

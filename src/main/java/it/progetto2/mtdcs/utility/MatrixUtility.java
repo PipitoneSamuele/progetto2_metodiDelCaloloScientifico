@@ -1,5 +1,6 @@
 package it.progetto2.mtdcs.utility;
 
+import java.util.Iterator;
 import java.util.Random;
 
 public class MatrixUtility {
@@ -29,6 +30,16 @@ public class MatrixUtility {
             System.out.print(d + " ");
         }
     }
+    
+    public static double[][] transpose(double [][] matrix) {
+    	double [][] temp = new double[matrix.length][matrix.length];
+    	for(int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				temp[i][j] = matrix[j][i];
+			}
+		}
+    	return temp;
+	}
     
     public static double dotProduct(double x[], double y[]) {
     	if (x.length != y.length)
