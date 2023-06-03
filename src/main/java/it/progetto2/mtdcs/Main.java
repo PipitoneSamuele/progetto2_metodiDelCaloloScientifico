@@ -3,6 +3,7 @@ package it.progetto2.mtdcs;
 import edu.emory.mathcs.jtransforms.dct.DoubleDCT_1D;
 import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
 import it.progetto2.mtdcs.DCT2.DCT1_Implementation;
+import it.progetto2.mtdcs.DCT2.DCT2_Implementation;
 import it.progetto2.mtdcs.utility.Constants;
 import it.progetto2.mtdcs.utility.MatrixUtility;
 
@@ -32,16 +33,15 @@ public class Main {
         test = dct1.calculateDCT();
         MatrixUtility.printVector(test);
         */
-
-    	double[] test = {231, 32, 233, 161, 24, 71, 140, 245};
+    	
+    	
     	System.out.println("Vettore iniziale:");
-        MatrixUtility.printVector(test);
+        MatrixUtility.printVector(Constants.TEST_VECTOR);
         System.out.println();
         System.out.println();
-    	//double[] testino = {1, 1, 1, 1};
-        DCT1_Implementation dct1 = new DCT1_Implementation(test);
+        DCT1_Implementation dct1 = new DCT1_Implementation(Constants.TEST_VECTOR.length);
         double[][] w = dct1.calculateDCT1();
-        double[] res = dct1.testDCT1(w);
+        double[] res = dct1.testDCT1(Constants.TEST_VECTOR, w);
         System.out.println();
         System.out.println("Vettore ri-calcolato con la w:");
         MatrixUtility.printVector(res);
