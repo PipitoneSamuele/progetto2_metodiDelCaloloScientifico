@@ -1,6 +1,9 @@
 package it.progetto2.mtdcs.utility;
 
-import java.util.Iterator;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 public class MatrixUtility {
@@ -10,7 +13,7 @@ public class MatrixUtility {
         double [][] matrix = new double[row][column];
         for(int i = 0; i < row; i++) {
             for(int j = 0; j < column; j++) {
-                matrix[i][j] = rand.nextInt(100);
+                matrix[i][j] = rand.nextInt(300);
             }
         }
         return matrix;
@@ -57,5 +60,29 @@ public class MatrixUtility {
     	for (int i = 0; i < x.length; i++)
     		res[i] = x[i] + y[i];
     	return res;
+    }
+
+    public static void test() throws IOException {
+
+        File file = new File("C:\\Users\\samue\\OneDrive\\Desktop\\universita\\MAGISTRALE_1_anno\\Metodi_del_calcolo_scientifico\\progetto 2\\progetto2_metodiDelCaloloScientifico\\src\\main\\resources\\images\\deer.bmp");
+
+        BufferedImage bufferedImage = ImageIO.read(file);
+        BufferedImage gray = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(),
+                BufferedImage.TYPE_BYTE_GRAY);
+
+        int width = gray.getWidth(null);
+        int height = gray.getHeight(null);
+        int[][] pixels = new int[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                pixels[i][j] = gray.getRGB(i, j);
+            }
+        }
+        for (int[] ints : pixels) {
+            for (int j = 0; j < pixels[0].length; j++) {
+                System.out.print(ints[j] + " ");
+            }
+            System.out.println();
+        }
     }
 }

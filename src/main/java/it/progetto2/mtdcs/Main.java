@@ -4,6 +4,8 @@ import edu.emory.mathcs.jtransforms.dct.DoubleDCT_1D;
 import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
 import it.progetto2.mtdcs.DCT2.DCT1_Implementation;
 import it.progetto2.mtdcs.DCT2.DCT2_Implementation;
+import it.progetto2.mtdcs.GUI.MainGUI;
+import it.progetto2.mtdcs.utility.Benchmark;
 import it.progetto2.mtdcs.utility.Constants;
 import it.progetto2.mtdcs.utility.MatrixUtility;
 
@@ -11,6 +13,9 @@ public class Main {
 
     public static void main(String[] args) {
         //MainGUI gui = new MainGUI();
+
+        Benchmark benchmark = new Benchmark();
+        benchmark.testDCT(500, 100);
 
         /*
         DoubleDCT_1D fdct = new DoubleDCT_1D(8); //La dimensione passata in input deve corrispondere con la dimensione del vettore
@@ -33,13 +38,14 @@ public class Main {
         DCT1_Implementation dct1 = new DCT1_Implementation(Constants.TEST_VECTOR);
         double[] res = dct1.calculateDCT1();
         MatrixUtility.printVector(res);*/
-    	
+    	/*
     	System.out.println("Matrice iniziale:");
         MatrixUtility.printMatrix(Constants.TEST_MATRIX);
         System.out.println();
         DCT2_Implementation dct2 = new DCT2_Implementation(Constants.TEST_MATRIX);
         double[][] res = dct2.calculateDCT2();
         MatrixUtility.printMatrix(res);
+        */
     }
 
 }

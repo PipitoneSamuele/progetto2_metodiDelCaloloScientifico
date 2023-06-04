@@ -10,8 +10,12 @@ public class DCT2_Implementation {
 	public DCT2_Implementation(double[][] matrix) {
         this.matrix = matrix;
     }
-	
-	/*Per applicare la DCT2 bisogna applicare la DCT1 prima 
+
+	public void setMatrix(double[][] matrix) {
+		this.matrix = matrix;
+	}
+
+	/*Per applicare la DCT2 bisogna applicare la DCT1 prima
 	 * per colonne e poi per righe */
 	
 	public double[][] calculateDCT2(){
