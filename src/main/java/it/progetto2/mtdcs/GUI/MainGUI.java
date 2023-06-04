@@ -1,6 +1,7 @@
 package it.progetto2.mtdcs.GUI;
 
 import it.progetto2.mtdcs.utility.GUI_Handler;
+import it.progetto2.mtdcs.utility.MatrixUtility;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -137,6 +138,7 @@ public class MainGUI {
                 uploadedImage = true;
                 mplCenter.add(Jimage);
                 reload();
+                MatrixUtility.test(8, 8);
             } else {
                 System.out.println("No image selected");
             }

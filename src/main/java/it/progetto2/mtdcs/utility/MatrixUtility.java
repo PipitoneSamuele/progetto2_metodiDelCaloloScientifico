@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class MatrixUtility {
@@ -21,6 +23,15 @@ public class MatrixUtility {
 
     public static void printMatrix(double[][] matrix) {
         for (double[] ints : matrix) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.print(ints[j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void printIntMatrix(int[][] matrix) {
+        for (int[] ints : matrix) {
             for (int j = 0; j < matrix[0].length; j++) {
                 System.out.print(ints[j] + " ");
             }
@@ -62,27 +73,51 @@ public class MatrixUtility {
     	return res;
     }
 
-    public static void test() throws IOException {
+    public static void test(int f, int d) throws IOException {
 
-        File file = new File("C:\\Users\\samue\\OneDrive\\Desktop\\universita\\MAGISTRALE_1_anno\\Metodi_del_calcolo_scientifico\\progetto 2\\progetto2_metodiDelCaloloScientifico\\src\\main\\resources\\images\\deer.bmp");
+        File file = new File("C:\\Users\\samue\\OneDrive\\Desktop\\universita\\MAGISTRALE_1_anno\\Metodi_del_calcolo_scientifico\\progetto 2\\progetto2_metodiDelCaloloScientifico\\src\\main\\resources\\images\\20x20.bmp");
 
         BufferedImage bufferedImage = ImageIO.read(file);
-        BufferedImage gray = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(),
-                BufferedImage.TYPE_BYTE_GRAY);
 
-        int width = gray.getWidth(null);
-        int height = gray.getHeight(null);
-        int[][] pixels = new int[width][height];
+        int width = bufferedImage.getWidth(null);
+        int height = bufferedImage.getHeight(null);
+        int[][] red = new int[width][height];
+        List<int[][]> subMatrix = new ArrayList<>();
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                pixels[i][j] = gray.getRGB(i, j);
+                red[i][j] = (bufferedImage.getRGB(i, j) & 0xFF);
             }
         }
-        for (int[] ints : pixels) {
-            for (int j = 0; j < pixels[0].length; j++) {
-                System.out.print(ints[j] + " ");
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                red[i][j] = 1;
             }
-            System.out.println();
         }
+
+        width = width - (width%f);
+        height =  height-(height%f);
+        int dimension = width / f;
+        int[][] tempMatrix = new int[dimension][dimension];
+
+        for(int k = 0; k < dimension; k++) {
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    if ((j + (k*f)) < dimension) {
+                        tempMatrix[i - (dimension * k)][j - (dimension * k)] = red[(i + (k*f))][(j + (k*f))]; //si rompe qua, sbagliato indice i - (dimension*k)
+                    } else break;
+                }
+                if (i != 0 && (i + 1 + (k*f)) % dimension == 0) {
+                    subMatrix.add(tempMatrix);
+                    tempMatrix = new int[dimension][dimension];
+                }
+            }
+        }
+
+        for(int[][] matrix : subMatrix) {
+            MatrixUtility.printIntMatrix(matrix);
+        }
+
     }
 }

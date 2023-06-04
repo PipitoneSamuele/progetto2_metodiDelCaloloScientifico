@@ -1,6 +1,5 @@
 package it.progetto2.mtdcs.DCT2;
 
-import it.progetto2.mtdcs.DCT2.DCT1_Implementation;
 import it.progetto2.mtdcs.utility.MatrixUtility;
 
 public class DCT2_Implementation {
@@ -14,11 +13,8 @@ public class DCT2_Implementation {
 	public void setMatrix(double[][] matrix) {
 		this.matrix = matrix;
 	}
-
-	/*Per applicare la DCT2 bisogna applicare la DCT1 prima
-	 * per colonne e poi per righe */
 	
-	public double[][] calculateDCT2(){
+	public double[][] calculateDCT2() {
 		int n = matrix.length;
 		
 		matrix = MatrixUtility.transpose(matrix);
@@ -36,7 +32,6 @@ public class DCT2_Implementation {
 		}
 		
 		return matrix;
-			
 	}
 		
 }

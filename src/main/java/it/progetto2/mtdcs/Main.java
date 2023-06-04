@@ -12,10 +12,12 @@ import it.progetto2.mtdcs.utility.MatrixUtility;
 public class Main {
 
     public static void main(String[] args) {
-        //MainGUI gui = new MainGUI();
+        MainGUI gui = new MainGUI();
 
+        /*
         Benchmark benchmark = new Benchmark();
         benchmark.testDCT(500, 100);
+        */
 
         /*
         DoubleDCT_1D fdct = new DoubleDCT_1D(8); //La dimensione passata in input deve corrispondere con la dimensione del vettore

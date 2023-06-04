@@ -26,7 +26,7 @@ public class DCT1_Implementation {
         	}
     	}
     	
-    	double res[] = new double[n];
+    	double[] res = new double[n];
     	for(int j = 0; j < n; j++) {
     		res[j] = MatrixUtility.dotProduct(vector, w[j]);
     	}
