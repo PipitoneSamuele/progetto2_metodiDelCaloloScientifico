@@ -99,24 +99,32 @@ public class MatrixUtility {
         width = width - (width%f);
         height =  height-(height%f);
         int dimension = width / f;
-        int[][] tempMatrix = new int[dimension][dimension];
+        int[][] tempMatrix = new int[f][f];
+        int counti = 0;
+        int countj = 0;
+        int k = 0;
 
-        for(int k = 0; k < dimension; k++) {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    if ((j + (k*f)) < dimension) {
-                        tempMatrix[i - (dimension * k)][j - (dimension * k)] = red[(i + (k*f))][(j + (k*f))]; //si rompe qua, sbagliato indice i - (dimension*k)
+                    if ((j + (k*f)) < f) {
+                        tempMatrix[counti][countj] = red[(i + (k*f))][(j + (k*f))];
+                        countj += 1;
                     } else break;
                 }
-                if (i != 0 && (i + 1 + (k*f)) % dimension == 0) {
+                counti += 1;
+                countj = 0;
+                if (i != 0 && (i + 1 + (k*f)) % f == 0) {
                     subMatrix.add(tempMatrix);
-                    tempMatrix = new int[dimension][dimension];
+                    tempMatrix = new int[f][f];
+                    counti = 0;
+                    k += 1;
                 }
             }
-        }
+
 
         for(int[][] matrix : subMatrix) {
             MatrixUtility.printIntMatrix(matrix);
+            System.out.println("");
         }
 
     }
