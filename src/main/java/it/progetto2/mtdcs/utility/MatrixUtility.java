@@ -1,14 +1,5 @@
 package it.progetto2.mtdcs.utility;
 
-import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
-
-import javax.imageio.ImageIO;
-
-import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class MatrixUtility {

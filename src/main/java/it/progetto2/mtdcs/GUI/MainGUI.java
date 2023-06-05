@@ -18,8 +18,6 @@ public class MainGUI {
     private JPanel mplCenter;
     private JPanel mplRight;
     private boolean uploadedImage = false;
-    private int ampiezza;
-    private int taglio;
     private JTextField intAmpiezzaTextField;
     private JTextField intTaglioFreqTextField;
 
@@ -151,8 +149,8 @@ public class MainGUI {
 
     private void submit() {
         try {
-            ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
-            taglio = Integer.parseInt(intTaglioFreqTextField.getText());
+            int ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
+            int taglio = Integer.parseInt(intTaglioFreqTextField.getText());
             
             BufferedImage buffImageCompressed = Compression.compress(ampiezza, taglio, imagePath);
             Image imageCompressed = buffImageCompressed.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
