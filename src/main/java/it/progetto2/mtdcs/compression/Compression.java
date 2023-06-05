@@ -6,8 +6,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.progetto2.mtdcs.utility.MatrixUtility;
-
 import javax.imageio.ImageIO;
 
 import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
@@ -15,6 +13,8 @@ import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
 public class Compression {
 	
 	public static BufferedImage compress(int f, int d, String path) throws Exception {
+
+        long t0 = System.currentTimeMillis();
 
     	File file = new File(path);
         BufferedImage bufferedImage = ImageIO.read(file);
@@ -38,10 +38,6 @@ public class Compression {
             }
         }
         
-        System.out.println("Matrice completa");
-        MatrixUtility.printIntMatrix(red);
-        System.out.println();
-        
         //Rimuovo lo scarto dell'immagine
         width = width - (width % f);
         height =  height - (height % f);
@@ -63,28 +59,13 @@ public class Compression {
 	                	tempMatrix[i][j] = red[i + k * f][j + z * f];
 	                }
 	            }
-	        	System.out.println("Sotto-matrice: (" + k + "," + z + ")" );
-	        	MatrixUtility.printMatrix(tempMatrix);
-	        	System.out.println();
 	        	subMatrix.add(tempMatrix);
                 tempMatrix = new double[f][f];
         	}
         }
 
-        System.out.println("prima della dct \n");
-        for(double[][] currSubMatrix : subMatrix) {
-        	MatrixUtility.printMatrix(currSubMatrix);
-            System.out.println();
-        }
-
         //Applichiamo la dct2 per ogni sotto matrice
         subMatrix = dctOfSubmatrix(subMatrix, f);
-
-        System.out.println("dct \n");
-        for(double[][] currSubMatrix : subMatrix) {
-        	MatrixUtility.printMatrix(currSubMatrix);
-            System.out.println();
-        }
 
         //Tagliamo le frequenze secondo il valore di d
         for(double[][] currSubMatrix : subMatrix) {
@@ -95,27 +76,13 @@ public class Compression {
                     }
                 }
             }
-            MatrixUtility.printMatrix(currSubMatrix);
-            System.out.println();
         }
 
         //Applichiamo la idct2 per ogni sotto matrice
         subMatrix = idctOfSubmatrix(subMatrix, f);
 
-        System.out.println("idct \n");
-        for(double[][] currSubMatrix : subMatrix) {
-        	MatrixUtility.printMatrix(currSubMatrix);
-            System.out.println();
-        }
-
         //Arrotondiamo all'intero piú vicino e tagliamo i valori negativi e maggiori di 255
         List<int[][]> roundedSubMatrix = round(subMatrix, f);
-        
-        System.out.println("rounded \n");
-        for(int[][] currSubMatrix : roundedSubMatrix) {
-        	MatrixUtility.printIntMatrix(currSubMatrix);
-            System.out.println();
-        }
 
         //Ricostruzione della matrice finale a partire dalle sottomatrici
         int[][] finalMatrix = new int[width][height];
@@ -131,13 +98,13 @@ public class Compression {
                 count++;
             }
         }
-        
-        System.out.println("LAST MATRIX \n");
-        MatrixUtility.printIntMatrix(finalMatrix);
-        
-        //Costruzione dell'immafine a seconda dei valori della matrice finale
-        BufferedImage image = createImage(finalMatrix);
-        return image;
+
+        System.out.println();
+        long t1 = System.currentTimeMillis();
+        System.out.println("TEMPO ESECUZIONE: " + (t1 -t0) + " ms");
+
+        //Costruzione dell'immagine a seconda dei valori della matrice finale
+        return createImage(finalMatrix);
     }
 	
     public static List<int[][]> round(List<double[][]> subMatrix, int dimension) {
