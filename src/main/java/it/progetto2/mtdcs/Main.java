@@ -40,6 +40,7 @@ public class Main {
         DCT1_Implementation dct1 = new DCT1_Implementation(Constants.TEST_VECTOR);
         double[] res = dct1.calculateDCT1();
         MatrixUtility.printVector(res);*/
+        
     	/*
     	System.out.println("Matrice iniziale:");
         MatrixUtility.printMatrix(Constants.TEST_MATRIX);

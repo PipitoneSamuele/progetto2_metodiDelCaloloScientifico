@@ -1,21 +1,22 @@
 package it.progetto2.mtdcs.GUI;
 
 import it.progetto2.mtdcs.utility.GUI_Handler;
-import it.progetto2.mtdcs.utility.MatrixUtility;
+import it.progetto2.mtdcs.compression.Compression;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class MainGUI {
 
     private String imagePath = "";
     private JFrame frame;
     private JPanel mplCenter;
+    private JPanel mplRight;
     private boolean uploadedImage = false;
     private int ampiezza;
     private int taglio;
@@ -100,7 +101,10 @@ public class MainGUI {
                 /*
                  * Pannello centro destra
                  */
+                
+                mplRight = GUI_Handler.createPanel(Color.white, 600, 75, 600, 425);
                 JPanel midPanelRight = GUI_Handler.createPanel(Color.gray, 600,100,600,600);
+                midPanelRight.add(mplRight);
 
                 /*
                  * Pannello inferiore
@@ -138,7 +142,7 @@ public class MainGUI {
                 uploadedImage = true;
                 mplCenter.add(Jimage);
                 reload();
-                MatrixUtility.test(8, 8);
+                
             } else {
                 System.out.println("No image selected");
             }
@@ -149,9 +153,18 @@ public class MainGUI {
         try {
             ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
             taglio = Integer.parseInt(intTaglioFreqTextField.getText());
+            
+            BufferedImage buffImageCompressed = Compression.compress(ampiezza, taglio, imagePath);
+            Image imageCompressed = buffImageCompressed.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+            JLabel JimageCompressed = new JLabel(new ImageIcon(imageCompressed));
+            JimageCompressed.setVisible(true);
+            uploadedImage = true;
+            mplRight.add(JimageCompressed);
+            reload();
+            
         } catch(Exception e) {
             //TODO: gestisci caso in cui input non valido
-            System.out.println("Non valido");
+            e.printStackTrace();
         }
     }
 
