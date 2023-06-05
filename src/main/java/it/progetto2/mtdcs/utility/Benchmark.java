@@ -1,5 +1,7 @@
 package it.progetto2.mtdcs.utility;
 
+import java.util.concurrent.TimeUnit;
+
 import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
 import it.progetto2.mtdcs.DCT2.DCT2_Implementation;
 
@@ -25,12 +27,12 @@ public class Benchmark {
             dct2.calculateDCT2();
             tMyImpl = System.nanoTime();
             System.out.println("Tempo calcolo DCT2 con implementazione nostra, matrice di dimensione " +
-                    currentDimension + ", in tempo: " + (tMyImpl-t0) + " nanosecondi");
+                    currentDimension + ", in tempo: " + TimeUnit.NANOSECONDS.toMillis(tMyImpl - t0) + " ms");
 
             fdct2.forward(matrixLibrary, true);
             tLibrary = System.nanoTime();
             System.out.println("Tempo calcolo DCT2 con libreria, matrice di dimensione " +
-                    currentDimension + ", in tempo: " + (tLibrary - tMyImpl) + " nanosecondi");
+                    currentDimension + ", in tempo: " + TimeUnit.NANOSECONDS.toMillis(tLibrary - tMyImpl) + " ms");
 
             currentDimension += scale;
         }
