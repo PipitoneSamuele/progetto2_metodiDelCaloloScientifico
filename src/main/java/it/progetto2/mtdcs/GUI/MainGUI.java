@@ -33,7 +33,7 @@ public class MainGUI {
                 /*
                  * Pannello superiore
                  */
-                JPanel topPanel = GUI_Handler.createPanel(Color.white, 0,25,1200,75);
+                JPanel topPanel = GUI_Handler.createPanel(Color.decode("#edebeb"), 0,25,1200,75);
 
                 JLabel title = new JLabel("Progetto 2 Metodi del calcolo scientifico");
                 title.setFont(new Font("Roboto", Font.PLAIN, 20));
@@ -46,16 +46,16 @@ public class MainGUI {
                 JLayeredPane midPanelLeft = new JLayeredPane();
                 midPanelLeft.setBounds(0,100,600,600);
 
-                JPanel mplTop1 = GUI_Handler.createPanel(Color.white, 0, 0, 600, 25);
-                JPanel mplTop2 = GUI_Handler.createPanel(Color.white, 0, 25, 600, 50);
+                JPanel mplTop1 = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 0, 600, 25);
+                JPanel mplTop2 = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 25, 600, 50);
 
-                mplCenter = GUI_Handler.createPanel(Color.white, 0, 75, 600, 425);
+                mplCenter = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 75, 600, 425);
 
-                JPanel mplBottom1 = GUI_Handler.createPanel(Color.white, 0, 500, 300, 35);
-                JPanel mplBottom11 = GUI_Handler.createPanel(Color.white, 0, 525, 300, 35);
-                JPanel mplBottom2 = GUI_Handler.createPanel(Color.white, 300, 500, 300, 35);
-                JPanel mplBottom21 = GUI_Handler.createPanel(Color.white, 300, 525, 300, 35);
-                JPanel mplBottom = GUI_Handler.createPanel(Color.white, 0, 560, 600, 100);
+                JPanel mplBottom1 = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 500, 300, 35);
+                JPanel mplBottom11 = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 525, 300, 35);
+                JPanel mplBottom2 = GUI_Handler.createPanel(Color.decode("#edebeb"), 300, 500, 300, 35);
+                JPanel mplBottom21 = GUI_Handler.createPanel(Color.decode("#edebeb"), 300, 525, 300, 35);
+                JPanel mplBottom = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 560, 600, 100);
 
                 JLabel mplLabel = new JLabel("Usa il bottone per selezionare l'immagine da caricare:");
                 mplLabel.setBounds(0,0,350,10);
@@ -99,10 +99,18 @@ public class MainGUI {
                 /*
                  * Pannello centro destra
                  */
-                
-                mplRight = GUI_Handler.createPanel(Color.white, 600, 75, 600, 425);
-                JPanel midPanelRight = GUI_Handler.createPanel(Color.gray, 600,100,600,600);
+
+                JLayeredPane midPanelRight = new JLayeredPane();
+                midPanelRight.setBounds(600,100,600,600);
+
+                JPanel mprTop = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 0, 600, 75);
+                mplRight = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 75, 600, 425);
+
+                JPanel mprBottom = GUI_Handler.createPanel(Color.decode("#edebeb"), 0, 500, 600, 100);
+
+                midPanelRight.add(mprTop);
                 midPanelRight.add(mplRight);
+                midPanelRight.add(mprBottom);
 
                 /*
                  * Pannello inferiore
@@ -140,7 +148,6 @@ public class MainGUI {
                 uploadedImage = true;
                 mplCenter.add(Jimage);
                 reload();
-                
             } else {
                 System.out.println("No image selected");
             }
@@ -159,7 +166,6 @@ public class MainGUI {
             uploadedImage = true;
             mplRight.add(JimageCompressed);
             reload();
-            
         } catch(Exception e) {
             //TODO: gestisci caso in cui input non valido
             e.printStackTrace();
