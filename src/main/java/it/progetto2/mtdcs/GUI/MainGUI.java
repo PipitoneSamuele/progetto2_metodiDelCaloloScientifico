@@ -173,8 +173,20 @@ public class MainGUI {
             try {
                 int ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
                 int taglio = Integer.parseInt(intTaglioFreqTextField.getText());
-
+                
                 BufferedImage buffImageCompressed = Compression.compress(ampiezza, taglio, imagePath);
+                
+                //Salvo il file compresso sul file system in formato jpg (nomefile_compressed.jpg)
+                //in modo da poter confrontare le dimensioni del file originale con quello compresso
+                //PS: so che non era richiesto ma era facile da fare e secondo me é interessante :)
+                File file = new File(imagePath);
+                System.out.println("DIMENSIONE FILE ORIGINALE: " + file.length() + "Bytes");
+                String imagePathWithoutExtension = imagePath.replaceAll("\\.\\w+","");
+                File outputfile = new File(imagePathWithoutExtension + "_compressed.jpg");
+                ImageIO.write(buffImageCompressed, "jpg", outputfile);
+                System.out.println("DIMENSIONE FILE COMPRESSO: " + outputfile.length() + "Bytes");
+                System.out.println("IL FILE COMPRESSO OCCUPA IL " + (outputfile.length() / (float)file.length()) * 100 + "% DEL FILE ORIGINALE");
+                
                 Image imageCompressed = buffImageCompressed.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
                 JLabel JimageCompressed = new JLabel(new ImageIcon(imageCompressed));
                 JimageCompressed.setVisible(true);
