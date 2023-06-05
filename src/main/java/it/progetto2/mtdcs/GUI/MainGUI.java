@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -18,6 +19,7 @@ public class MainGUI {
     private JPanel mplCenter;
     private JPanel mplRight;
     private boolean uploadedImage = false;
+    private boolean compressedImage = false;
     private JTextField intAmpiezzaTextField;
     private JTextField intTaglioFreqTextField;
 
@@ -115,7 +117,19 @@ public class MainGUI {
                 /*
                  * Pannello inferiore
                  */
-                JPanel bottomPanel = GUI_Handler.createPanel(Color.red, 0,700,1200,100);
+                JPanel bottomPanel = GUI_Handler.createPanel(Color.decode("#edebeb"), 0,700,1200,100);
+                /*
+                JButton reloadButton = new JButton("Reload");
+
+                reloadButton.setLayout(null);
+                reloadButton.setBounds(0,20,100,100);
+                reloadButton.addActionListener(e -> {
+                    WindowEvent closingEvent = new WindowEvent(frame, WindowEvent.WINDOW_CLOSING);
+                    Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closingEvent);
+                    frame.setVisible(true);
+                });
+
+                bottomPanel.add(reloadButton);*/
 
                 /*
                  * Aggiunta elementi al frame principale
@@ -155,20 +169,22 @@ public class MainGUI {
     }
 
     private void submit() {
-        try {
-            int ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
-            int taglio = Integer.parseInt(intTaglioFreqTextField.getText());
-            
-            BufferedImage buffImageCompressed = Compression.compress(ampiezza, taglio, imagePath);
-            Image imageCompressed = buffImageCompressed.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-            JLabel JimageCompressed = new JLabel(new ImageIcon(imageCompressed));
-            JimageCompressed.setVisible(true);
-            uploadedImage = true;
-            mplRight.add(JimageCompressed);
-            reload();
-        } catch(Exception e) {
-            //TODO: gestisci caso in cui input non valido
-            e.printStackTrace();
+        if(!compressedImage) {
+            try {
+                int ampiezza = Integer.parseInt(intAmpiezzaTextField.getText());
+                int taglio = Integer.parseInt(intTaglioFreqTextField.getText());
+
+                BufferedImage buffImageCompressed = Compression.compress(ampiezza, taglio, imagePath);
+                Image imageCompressed = buffImageCompressed.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+                JLabel JimageCompressed = new JLabel(new ImageIcon(imageCompressed));
+                JimageCompressed.setVisible(true);
+                uploadedImage = true;
+                mplRight.add(JimageCompressed);
+                compressedImage = true;
+                reload();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
