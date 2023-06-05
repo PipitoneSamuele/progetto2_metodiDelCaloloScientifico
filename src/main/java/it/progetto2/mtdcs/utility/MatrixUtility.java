@@ -1,18 +1,14 @@
 package it.progetto2.mtdcs.utility;
 
+import edu.emory.mathcs.jtransforms.dct.DoubleDCT_2D;
+
 import javax.imageio.ImageIO;
 
-import static org.junit.Assert.assertThrows;
-
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.util.zip.ZipEntry;
 
 public class MatrixUtility {
 
@@ -61,7 +57,7 @@ public class MatrixUtility {
     	return temp;
 	}
     
-    public static double dotProduct(double x[], double y[]) {
+    public static double dotProduct(double[] x, double[] y) {
     	if (x.length != y.length)
     	    throw new RuntimeException("Arrays must be same size");
     	double sum = 0;
@@ -70,7 +66,7 @@ public class MatrixUtility {
     	return sum;
     }
     
-    public static double[] vectorSum(double x[], double y[]) {
+    public static double[] vectorSum(double[] x, double[] y) {
     	if (x.length != y.length)
     	    throw new RuntimeException("Arrays must be same size");
     	double[] res = new double[x.length];
@@ -79,16 +75,24 @@ public class MatrixUtility {
     	return res;
     }
 
-    public static void test(int f, int d) throws IOException {
+    public static void test(int f, int d) throws Exception {
 
-        //File file = new File("C:\\Users\\samue\\OneDrive\\Desktop\\universita\\MAGISTRALE_1_anno\\Metodi_del_calcolo_scientifico\\progetto 2\\progetto2_metodiDelCaloloScientifico\\src\\main\\resources\\images\\20x20.bmp");
-    	File file = new File("C:\\Users\\mcamp\\OneDrive - Università degli Studi di Milano-Bicocca\\Appunti Magistrale\\1° anno\\Metodi del calcolo scientifico\\progetto2_metodiDelCalcoloScientifico\\src\\main\\resources\\images\\20x20.bmp");
+        File file = new File("C:\\Users\\samue\\OneDrive\\Desktop\\universita\\MAGISTRALE_1_anno\\Metodi_del_calcolo_scientifico\\progetto 2\\progetto2_metodiDelCaloloScientifico\\src\\main\\resources\\images\\20x20.bmp");
+    	//File file = new File("C:\\Users\\mcamp\\OneDrive - Università degli Studi di Milano-Bicocca\\Appunti Magistrale\\1° anno\\Metodi del calcolo scientifico\\progetto2_metodiDelCalcoloScientifico\\src\\main\\resources\\images\\20x20.bmp");
         BufferedImage bufferedImage = ImageIO.read(file);
 
         int width = bufferedImage.getWidth(null);
         int height = bufferedImage.getHeight(null);
         int[][] red = new int[width][height];
-        List<int[][]> subMatrix = new ArrayList<>();
+        List<double[][]> subMatrix = new ArrayList<>();
+
+        //Controlli sull'input
+        if(f > width || f < 1) {
+            throw new Exception("Input f invalido");
+        }
+        if(d < 0 || d > (2*f - 2)) {
+            throw new Exception("Valore di d non valido, il range deve essere compreso tra 0 e " + (2*f-2));
+        }
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -100,37 +104,10 @@ public class MatrixUtility {
         printIntMatrix(red);
         System.out.println();
         
-        /* 
-        width = width - (width%f);
-        height =  height-(height%f);
-        int dimension = width / f;
-        int[][] tempMatrix = new int[f][f];
-        int counti = 0;
-        int countj = 0;
-        int k = 0;
-        
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if ((j + (k*f)) < f) {
-                    tempMatrix[counti][countj] = red[(i + (k*f))][(j + (k*f))];
-                    countj += 1;
-                } else break;
-            }
-            counti += 1;
-            countj = 0;
-            if (i != 0 && (i + 1 + (k*f)) % f == 0) {
-                subMatrix.add(tempMatrix);
-                tempMatrix = new int[f][f];
-                counti = 0;
-                k += 1;
-            }
-        }
-        */
-        
         //Rimuovo lo scarto
         width = width - (width%f);
         height =  height-(height%f);
-        int[][] tempMatrix = new int[f][f];
+        double[][] tempMatrix = new double[f][f];
         
         //Numero di sottomatrici per riga (e colonna, tanto sono quadrate)
         int dim = width / f;
@@ -147,10 +124,121 @@ public class MatrixUtility {
 	                }
 	            }
 	        	System.out.println("Sotto-matrice: (" + k + "," + z + ")" );
-	        	printIntMatrix(tempMatrix);
+	        	printMatrix(tempMatrix);
 	        	System.out.println();
 	        	subMatrix.add(tempMatrix);
+                tempMatrix = new double[f][f];
         	}
         }
+
+        System.out.println("prima della dct \n");
+        for(double[][] currSubMatrix : subMatrix) {
+            printMatrix(currSubMatrix);
+            System.out.println();
+        }
+
+        //applichiamo la dct2 per ogni sotto matrice
+        subMatrix = dctOfSubmatrix(subMatrix, f);
+
+        System.out.println("dct \n");
+        for(double[][] currSubMatrix : subMatrix) {
+            printMatrix(currSubMatrix);
+            System.out.println();
+        }
+
+        //tagliamo le frequenze
+        for(double[][] currSubMatrix : subMatrix) {
+            for(int i = 0; i < f; i++) {
+                for(int j = 0; j < f; j++) {
+                    if(i+j >= d) {
+                        currSubMatrix[i][j] = 0;
+                    }
+                }
+            }
+            printMatrix(currSubMatrix);
+            System.out.println();
+        }
+
+        //applicare idct2
+        subMatrix = idctOfSubmatrix(subMatrix, f);
+
+        System.out.println("idct \n");
+        for(double[][] currSubMatrix : subMatrix) {
+            printMatrix(currSubMatrix);
+            System.out.println();
+        }
+
+        //arrotondiamo i valori
+        List<int[][]> roundedSubMatrix = round(subMatrix, f);
+        System.out.println("rounded \n");
+        for(int[][] currSubMatrix : roundedSubMatrix) {
+            printIntMatrix(currSubMatrix);
+            System.out.println();
+        }
+
+        int[][] finalMatrix = new int[width][height];
+
+            for(int i = 0; i < dim; i++) {
+                for(int j = 0; j < dim; j++) {
+                    for(int[][] currSubMatrix : roundedSubMatrix) {
+                        for(int k = 0; k < f; k++) {
+                            for(int z = 0; z < f; z++) {
+                                finalMatrix[i][j] = currSubMatrix[k][z];
+                            }
+                        }
+                    }
+                }
+            }
+
+        System.out.println("LAST MATRIX \n");
+        printIntMatrix(finalMatrix);
     }
+
+    public static List<int[][]> round(List<double[][]> subMatrix, int dimension) {
+        List<int[][]> ret = new ArrayList<>();
+        int[][] temp = new int[dimension][dimension];
+
+        for(double[][] currSubMatrix : subMatrix) {
+            for(int i = 0; i < currSubMatrix.length; i++) {
+                for(int j = 0; j < currSubMatrix[0].length; j++) {
+                    if(currSubMatrix[i][j] < 0) {
+                        temp[i][j] = 0;
+                    } else if(currSubMatrix[i][j] > 255){
+                        temp[i][j] = 255;
+                    } else {
+                        temp[i][j] = (int) Math.round(currSubMatrix[i][j]);
+                    }
+                }
+            }
+            ret.add(temp);
+            temp = new int[dimension][dimension];
+        }
+
+        return ret;
+    }
+
+    public static List<double[][]> dctOfSubmatrix(List<double[][]> subMatrix, int subMatrixDimension) {
+        List<double[][]> ret = new ArrayList<>();
+        DoubleDCT_2D fdct2 = new DoubleDCT_2D(subMatrixDimension, subMatrixDimension);
+
+        for(double[][] currSubMatrix : subMatrix) {
+            fdct2.forward(currSubMatrix, true);
+            ret.add(currSubMatrix);
+        }
+
+        return ret;
+    }
+
+    public static List<double[][]> idctOfSubmatrix(List<double[][]> subMatrix, int subMatrixDimension) {
+        List<double[][]> ret = new ArrayList<>();
+        DoubleDCT_2D fdct2 = new DoubleDCT_2D(subMatrixDimension, subMatrixDimension);
+
+        for(double[][] currSubMatrix : subMatrix) {
+            fdct2.inverse(currSubMatrix, true);
+            ret.add(currSubMatrix);
+        }
+
+        return ret;
+    }
+
 }

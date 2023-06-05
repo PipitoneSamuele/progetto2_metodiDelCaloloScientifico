@@ -65,7 +65,7 @@ public class MainGUI {
                 mplButton.addActionListener(e -> {
                     try {
                         uploadImage();
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 });
@@ -119,7 +119,7 @@ public class MainGUI {
         });
     }
 
-    private void uploadImage() throws IOException {
+    private void uploadImage() throws Exception {
         if(!uploadedImage) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setCurrentDirectory(new File("./src/main/resources/images"));
