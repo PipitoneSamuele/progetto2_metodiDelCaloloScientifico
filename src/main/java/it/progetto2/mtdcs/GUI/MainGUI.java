@@ -185,7 +185,7 @@ public class MainGUI {
                 File outputfile = new File(imagePathWithoutExtension + "_compressed.jpg");
                 ImageIO.write(buffImageCompressed, "jpg", outputfile);
                 System.out.println("DIMENSIONE FILE COMPRESSO: " + outputfile.length() + "Bytes");
-                System.out.println("IL FILE COMPRESSO OCCUPA IL " + (outputfile.length() / (float)file.length()) * 100 + "% DEL FILE ORIGINALE");
+                System.out.println("IL FILE COMPRESSO E' IL " + (100 - ((outputfile.length() / (float)file.length()) * 100)) + "% PIU' PICCOLO DEL FILE ORIGINALE");
                 
                 Image imageCompressed = buffImageCompressed.getScaledInstance(400, 400, Image.SCALE_SMOOTH);
                 JLabel JimageCompressed = new JLabel(new ImageIcon(imageCompressed));
